@@ -1,0 +1,7 @@
+# Compiler speak.
+librdram.a
+*.o
+
+# Swap files.
+*.swp
+
