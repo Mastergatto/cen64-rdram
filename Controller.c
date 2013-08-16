@@ -11,6 +11,7 @@
 #include "Address.h"
 #include "Common.h"
 #include "Controller.h"
+#include "Externs.h"
 
 #ifdef __cplusplus
 #include <cassert>
@@ -112,6 +113,7 @@ InitRDRAM(struct RDRAMController *controller) {
 
   /* Prevent valgrind from complaining. */
   memset(controller->memory, 0, RDRAM_ADDRESS_LEN);
+  RDPSetRDRAMPointer(controller->memory);
 }
 
 /* ============================================================================
