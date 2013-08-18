@@ -113,7 +113,15 @@ InitRDRAM(struct RDRAMController *controller) {
 
   /* Prevent valgrind from complaining. */
   memset(controller->memory, 0, RDRAM_ADDRESS_LEN);
+
+  /* Apply temporary hack for RDP. */
   RDPSetRDRAMPointer(controller->memory);
+
+  /* Initialize register values. */
+  controller->regs[RI_MODE_REG] = 0xE;
+  controller->regs[RI_CONFIG_REG] = 0x40;
+  controller->regs[RI_SELECT_REG] = 0x14;
+  controller->regs[RI_REFRESH_REG] = 0x63634;
 }
 
 /* ============================================================================
