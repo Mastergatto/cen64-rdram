@@ -45,8 +45,10 @@ struct RDRAMController {
   uint32_t rdramregs[NUM_RDRAM_REGISTERS];
 };
 
+/* When reading unaligned data, use this structure. */
+/* The size can be any value between 1 <= x <= 8 bytes. */
 struct UnalignedData {
-  uint32_t data;
+  uint8_t data[8];
   size_t size;
 };
 

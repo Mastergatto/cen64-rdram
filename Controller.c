@@ -96,7 +96,7 @@ DestroyRDRAM(struct RDRAMController *controller) {
  *  GetRDRAMMemoryPointer: Hack for video system.
  * ========================================================================= */
 const uint8_t *
-GetRDRAMMemoryPointer(struct RDRAMController *controller) {
+GetRDRAMMemoryPointer(const struct RDRAMController *controller) {
   return controller->memory;
 }
 
@@ -184,23 +184,6 @@ RDRAMReadWord(void *_controller, uint32_t address, void *_data) {
 
   memcpy(&word, controller->memory + address, sizeof(word));
   *data = ByteOrderSwap32(word);
-
-  return 0;
-}
-
-/* ============================================================================
- *  RDRAMReadWordUnaligned: Read a word from RDRAM.
- * ========================================================================= */
-int
-RDRAMReadWordUnaligned(void *_controller, uint32_t address, void *_data) {
-  struct RDRAMController *controller = (struct RDRAMController*) _controller;
-  struct UnalignedData *data = (struct UnalignedData*) _data;
-  uint32_t word = 0;
-
-  address = address - RDRAM_BASE_ADDRESS;
-
-  memcpy(&word, controller->memory + address, data->size);
-  data->data = ByteOrderSwap32(word);
 
   return 0;
 }
@@ -314,9 +297,7 @@ RDRAMWriteWordUnaligned(void *_controller, uint32_t address, void *_data) {
 
   address = address - RDRAM_BASE_ADDRESS;
 
-  uint32_t word = ByteOrderSwap32(data->data);
-  memcpy(controller->memory + address, &word, data->size);
-
+  memcpy(controller->memory + address, data->data, data->size);
   return 0;
 }
 
